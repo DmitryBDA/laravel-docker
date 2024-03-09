@@ -12,7 +12,6 @@ services:
       - postgres
       - php
       - redis
-      - pgadmin
   php:
     build:
       context: dockerfiles
@@ -50,6 +49,12 @@ services:
     volumes:
       - ./src:/var/www/laravel
     entrypoint: ["php", "/var/www/laravel/artisan"]
+  npm:
+    image: node:14
+    working_dir: /var/www/laravel
+    entrypoint: [ "npm"]
+    volumes:
+      - ./src:/var/www/laravel
   redis:
     image: redis:6.0.7
     container_name: redis
@@ -58,14 +63,14 @@ services:
       - redis_volume_data:/data
     ports:
       - 6379:6379
-  pgadmin:
-    container_name: pgadmin
-    image: dpage/pgadmin4
-    environment:
-      PGADMIN_DEFAULT_EMAIL: noemail@noemail.com
-      PGADMIN_DEFAULT_PASSWORD: root
-    ports:
-      - "5050:80"
+#  pgadmin:
+#    container_name: pgadmin
+#    image: dpage/pgadmin4
+#    environment:
+#      PGADMIN_DEFAULT_EMAIL: noemail@noemail.com
+#      PGADMIN_DEFAULT_PASSWORD: root
+#    ports:
+#      - "5050:80"
 
 volumes:
   postgres_data:

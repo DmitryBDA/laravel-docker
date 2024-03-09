@@ -16,10 +16,10 @@
     $(function () {
       var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
       var donutData = {
-        labels: {!! json_encode($dataOnTekDay['arNameServices']) !!},
+        labels: {!! json_encode($dataOnTekDay['arNameServices'] ?? '') !!},
         datasets: [
           {
-            data: {!! json_encode($dataOnTekDay['arPriceService']) !!},
+            data: {!! json_encode($dataOnTekDay['arPriceService'] ?? '') !!},
             backgroundColor: ['#00a65a', '#f56954', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de'],
           }
         ]
@@ -210,7 +210,7 @@
                         style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
               </div>
               <div class="price_doxod">
-                {{$dataOnTekDay['arSum']}}
+                {{$dataOnTekDay['arSum'] ?? ''}}
               </div>
               <!-- /.card-body -->
             </div>
@@ -234,7 +234,7 @@
                         style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
               </div>
               <div class="price_doxod">
-                {{$dataOnMonth['arSum']}}
+                {{$dataOnMonth['arSum'] ?? ''}}
               </div>
               <!-- /.card-body -->
             </div>

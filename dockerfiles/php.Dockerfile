@@ -11,6 +11,17 @@ RUN apk --no-cache update \
     \
     && docker-php-ext-install pdo_pgsql
 
+RUN apk add libpng-dev
+RUN apk add libzip-dev
+RUN apk add --update linux-headers
+
+RUN docker-php-ext-install gd
+
+
 RUN pecl install redis \
     && rm -rf /tmp/pear \
     && docker-php-ext-enable redis
+
+#install xdebug
+RUN pecl install xdebug
+COPY xdebug.ini "${PHP_INI_DIR}"/conf.d

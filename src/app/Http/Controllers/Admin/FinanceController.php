@@ -23,16 +23,27 @@ class FinanceController extends Controller
     {
 
       $obRecordList = $this->financeRepository->getRecordListToday();
-      $dataOnTekDay = $this->financeService->sumByTypeService($obRecordList);
+
+        $dataOnTekDay = [];
+        if (!$obRecordList->isEmpty()) {
+            $dataOnTekDay = $this->financeService->sumByTypeService($obRecordList);
+        }
+
 
         $sumForMonth = $this->financeRepository->getSumForMonth();
 
-        $dataOnMonth = [];
-        foreach ($sumForMonth as $key => $value) {
-            $dataOnMonth['arNameServices'][] = $key;
-            $dataOnMonth['arPriceService'][] = $value;
+        $dataOnMonth = [
+            'arNameServices' => [],
+            'arPriceService' => []
+        ];
+
+        if ($sumForMonth) {
+            foreach ($sumForMonth as $key => $value) {
+                $dataOnMonth['arNameServices'][] = $key;
+                $dataOnMonth['arPriceService'][] = $value;
+            }
+            $dataOnMonth['arSum'] = array_sum($dataOnMonth['arPriceService']);
         }
-        $dataOnMonth['arSum'] = array_sum($dataOnMonth['arPriceService']);
 
         return view('admin.pages.finance', compact('dataOnTekDay', 'dataOnMonth'));
     }
