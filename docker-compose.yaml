@@ -18,6 +18,8 @@ services:
       dockerfile: php.Dockerfile
     volumes:
       - ./src:/var/www/laravel
+    extra_hosts:
+      - host.docker.internal:host-gateway
 #  mysql:
 #    image: mysql:8.0
 #    ports:

@@ -13,7 +13,6 @@ RUN apk --no-cache update \
 
 RUN apk add libpng-dev
 RUN apk add libzip-dev
-RUN apk add --update linux-headers
 
 RUN docker-php-ext-install gd
 
@@ -23,5 +22,10 @@ RUN pecl install redis \
     && docker-php-ext-enable redis
 
 #install xdebug
-RUN pecl install xdebug
-COPY xdebug.ini "${PHP_INI_DIR}"/conf.d
+RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS \
+    && apk add --update linux-headers \
+    && pecl install xdebug-3.2.2 \
+    && docker-php-ext-enable xdebug \
+    && apk del -f .build-deps
+
+COPY xdebug.ini /usr/local/etc/php/conf.d
